@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <!--<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no,user-scalable=no">-->
+    <title>金蟾操盘</title>
+    <link rel="stylesheet" href="./kitchen-sink.css">
+</head>
+<body>
+<!--<div class="window_mask"></div>-->
+<!--<div class="window_toast" id="loading">-->
+    <!--<img src="./loading.png" alt="" class="window_loading">-->
+    <!--<p>交易中</p>-->
+<!--</div>-->
+<div id="root"></div>
+<script src="./jquery.min.js"></script>
+<script src="./jquery.signalR-2.2.3.min.js"></script>
+<script src="http://47.100.123.216:1218/signalr/hubs"></script>
+<script src="./toast.js"></script>
+<script src="./hammer-min.js"></script>
+<script src="./polyfill.min.js"></script>
+<script>
+    var k_type_choose = "";
+    var work = $.connection.myHub;
+    $.connection.hub.url = 'http://47.100.123.216:1218/lcc';
+    var hub = $.connection.hub;
+    hub.start().done(function () {
+        work.server.品种行情()
+        setInterval(function () {
+            work.server.品种行情()
+        }, 1000)
+    });
+</script>
+</body>
+</html>

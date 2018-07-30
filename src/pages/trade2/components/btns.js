@@ -5,12 +5,74 @@ import {Modal} from 'antd-mobile'
 import config from '../../../utils/config'
 import React from 'react'
 import {Toast,Flex} from 'antd-mobile'
+import Warn from '../../../components/alert/warn'
 
 const prompt = Modal.prompt;
 
 let id;
 
 class Btns extends React.Component {
+    state = {
+        btnIndex:0,
+        showAlert:false,
+        alertText:'',
+        alertPirce:0,
+        alertCallBack:null
+    }
+    btn = (index,price) => {
+        const {buy,ping_buy,sell,ping_sell,num} = this.props;
+        let callback = null;
+        let text = '';
+        switch (index){
+            case 1:
+                text = `买入开仓${num}手`
+                callback = () => {
+                    buy();
+                    this.setState({
+                        showAlert:false
+                    })
+                }
+                break;
+            case 2:
+                text = '平仓买入'
+                callback = () => {
+                    ping_buy();
+                    this.setState({
+                        showAlert:false
+                    })
+                }
+                break;
+            case 3:
+                text = `卖出开仓${num}手`
+                callback = () => {
+                    sell();
+                    this.setState({
+                        showAlert:false
+                    })
+                }
+                break;
+            case 4:
+                text = '平仓卖出'
+                callback = () => {
+                    ping_sell();
+                    this.setState({
+                        showAlert:false
+                    })
+                }
+                break;
+        }
+        if (localStorage.getItem(config.TRADE_SWITCH) === null || localStorage.getItem(config.TRADE_SWITCH) === "true") {
+            this.setState({
+                btnIndex:index,
+                showAlert:true,
+                alertText:text,
+                alertPirce:price,
+                alertCallBack:callback
+            })
+        } else {
+            callback && callback();
+        }
+    }
     componentWillReceiveProps() {
         const {getPingNum, no_trade} = this.props;
         if (no_trade) {
@@ -31,10 +93,22 @@ class Btns extends React.Component {
         const {...rest} = this.props;
         return (
             <div>
+                <Warn
+                    title={'委托确认'}
+                    content={
+                        <div>
+                            <p>确定下单吗？</p>
+                            <p>{rest.data.合约别名}，{this.state.alertPirce}元，{this.state.alertText}</p>
+                        </div>
+                    }
+                    visible={this.state.showAlert}
+                    callBack={this.state.alertCallBack}
+                    hide={() => {this.setState({showAlert:false})}}
+                />
                 <Flex>
                     <Flex.Item>
                         <div styleName="trade-btn"
-                             onClick={rest.price_type === 1 ? rest.ifSwitch('确定买入？', rest.buy) : rest.limitOrder('买入' + rest.num + '手', rest.buy)}>
+                             onClick={rest.price_type === 1 ? () => {this.btn(1,rest.data.最新价)} : rest.limitOrder('买入' + rest.num + '手', rest.buy)}>
                             <div styleName="btn-num">{rest.data.买价 ? rest.data.买价 : '...'}</div>
                             <div styleName="btn-title">买</div>
                         </div>
@@ -42,7 +116,7 @@ class Btns extends React.Component {
                     <Flex.Item>
                         <div styleName="trade-btn"
                              style={{backgroundColor:'#a703a2'}}
-                             onClick={rest.ifSwitch('确定平买？', rest.ping_buy)}>
+                             onClick={() => {this.btn(2,rest.data.最新价)}}>
                             <div styleName="btn-num">持{rest.buy_num}手</div>
                             <div styleName="btn-title">平买</div>
                         </div>
@@ -50,7 +124,7 @@ class Btns extends React.Component {
                     <Flex.Item>
                         <div styleName="trade-btn"
                              style={{backgroundColor:'#1eb71e'}}
-                             onClick={rest.price_type === 1 ? rest.ifSwitch('确定卖出？', rest.sell) : rest.limitOrder('卖出' + rest.num + '手', rest.sell)}>
+                             onClick={rest.price_type === 1 ? () => {this.btn(3,rest.data.最新价)} : rest.limitOrder('卖出' + rest.num + '手', rest.sell)}>
                             <div styleName="btn-num">{rest.data.卖价 ? rest.data.卖价 : '...'}</div>
                             <div styleName="btn-title">卖</div>
                         </div>
@@ -58,7 +132,7 @@ class Btns extends React.Component {
                     <Flex.Item>
                         <div styleName="trade-btn"
                              style={{backgroundColor:'#0074b1'}}
-                             onClick={rest.ifSwitch('确定平卖？', rest.ping_sell)}>
+                             onClick={() => {this.btn(4,rest.data.最新价)}}>
                             <div styleName="btn-num">持{rest.sell_num}手</div>
                             <div styleName="btn-title">平卖</div>
                         </div>
@@ -109,23 +183,23 @@ const mapDispatchToProps = (dispatch, props) => ({
             ],
         )
     },
-    ifSwitch: (title, callback) => () => {
-        if (sessionStorage.getItem(config.TRADE_SWITCH) === null || sessionStorage.getItem(config.TRADE_SWITCH) === "true") {
-            Modal.alert(title, '', [
-                {
-                    text: '取消', onPress: () => {
-                    }
-                },
-                {
-                    text: '确定', onPress: () => {
-                        callback && callback();
-                    }
-                }
-            ])
-        } else {
-            callback && callback();
-        }
-    },
+    // ifSwitch: (title, callback) => () => {
+    //     if (localStorage.getItem(config.TRADE_SWITCH) === null || localStorage.getItem(config.TRADE_SWITCH) === "true") {
+    //         Modal.alert(title, '', [
+    //             {
+    //                 text: '取消', onPress: () => {
+    //                 }
+    //             },
+    //             {
+    //                 text: '确定', onPress: () => {
+    //                     callback && callback();
+    //                 }
+    //             }
+    //         ])
+    //     } else {
+    //         callback && callback();
+    //     }
+    // },
     buy: () => {
         window.loading('交易中...', 0);
         dispatch({

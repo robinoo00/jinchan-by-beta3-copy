@@ -3,13 +3,18 @@ import styles from '../styles/tpl.css'
 import {connect} from 'dva'
 import Header from '../../../components/header/header'
 import {List} from 'antd-mobile'
-const Item = List.Item;
+import Button from '../../../components/button/button'
+import router from 'umi/router'
+const Item = List.Item
 
-const Example = ({data}) => {
+
+const Example = ({data,credit}) => {
     return (
         <div>
             <Header
-                title={'账户明细'}
+                title={'风险查询'}
+                rightText={'记录'}
+                rightCallBack={() => router.push('redits')}
             />
             {data.map((item,index) => (
                 <Item
@@ -17,6 +22,14 @@ const Example = ({data}) => {
                     extra={item.value}
                 >{item.title}</Item>
             ))}
+            <div
+                style={{padding:'15px'}}
+            >
+                <Button
+                    title={'重新授信'}
+                    callBack={credit}
+                />
+            </div>
         </div>
     );
 };
@@ -26,6 +39,11 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = (dispatch,props) => ({
+    credit:() => {
+        dispatch({
+            type:'capital/credit'
+        })
+    }
 })
 
 export default connect(mapStateToProps,mapDispatchToProps)(CSSModules(Example, styles))

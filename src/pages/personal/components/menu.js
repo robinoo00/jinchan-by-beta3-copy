@@ -16,7 +16,7 @@ const Example = ({elink,action}) => {
                 </Link>
                 <a href="javascript:;" onClick={elink('/capital',action)}>
                     <i styleName="iconfont" data-icon="capital" style={{backgroundColor:'#bd2fe8'}}></i>
-                    账户明细
+                    风险查询
                     <i styleName="mod-arrow-r"></i>
                 </a>
             </div>

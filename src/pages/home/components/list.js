@@ -30,7 +30,7 @@ class HomeList extends React.Component {
                                         <p styleName="desc">交易所:{item.交易所}</p>
                                     </Flex.Item>
                                     <Flex.Item styleName="fr"
-                                          style={item.涨跌幅 < 0 ? {color: '#01B28E'} : {}}>{item.最新价}<br/>{item.涨跌幅}%</Flex.Item>
+                                          style={item.涨跌幅 < 0 ? {color: '#01B28E'} : {}}>{item.最新价}<br/>{item.涨跌幅}</Flex.Item>
                                     <Flex.Item styleName="mod-arrow-r"></Flex.Item>
                                 </Flex>
                             ))}

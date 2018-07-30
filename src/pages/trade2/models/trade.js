@@ -86,6 +86,7 @@ export default {
             Toast.hide();
         },
         * ping({direction}, {put, call, select}) {
+            console.log('direction',direction);
             const code = yield select(state => state.trade2.code);
             const {data} = yield call(TradeServices.getOffect, {pz: code, fx: direction});
             if (data) {

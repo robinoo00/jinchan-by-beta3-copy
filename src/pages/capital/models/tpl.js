@@ -1,5 +1,7 @@
 import * as CapitalServices from '../services/tpl'
 import config from "../../../utils/config";
+import {Toast} from 'antd-mobile'
+
 export default {
     namespace: 'capital',
     state: {
@@ -14,6 +16,7 @@ export default {
             {title:'手续费',value:0,key:7},
             {title:'平仓盈亏',value:0,key:8},
             {title:'持仓盈亏',value:0,key:9},
+            {title:'风险率',value:0,key:'风险率'},
         ]
     },
     subscriptions: {
@@ -37,6 +40,16 @@ export default {
                     info:data
                 })
             }
+        },
+        *credit(state,{call,select}){
+            // const personal_info = yield select(state => state.personal.data);
+            // console.log(personal_info);
+            const {data} = yield call(CapitalServices.credit,{})
+            if(data){
+                if(data.信息){
+                    Toast.info(data.信息)
+                }
+            }
         }
     },
 
@@ -45,6 +58,9 @@ export default {
             for(let item of state.data){
                 if(typeof info[item.key] != 'undefined'){
                     item['value'] = info[item.key];
+                }
+                if(item.key === '风险率'){
+                    item.value = info['劣后'] / info['优先'] * 100 + '%';
                 }
             }
             return {

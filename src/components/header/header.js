@@ -1,6 +1,7 @@
 import CSSModules from 'react-css-modules'
 import styles from './header.css'
 import router from 'umi/router'
+import Warn from '../../components/alert/warn'
 
 const Header = ({callBack=() => {},bgColor="#262834",back=true,leftText='',rightText='',rightCallBack = () => {},url = '/',
                     leftCallBack = () => {url === '/' ? router.goBack() : router.push({pathname:url})},title}) => (
@@ -14,7 +15,6 @@ const Header = ({callBack=() => {},bgColor="#262834",back=true,leftText='',right
           {rightText}
         </div>
       </div>
-
     </div>
 )
 

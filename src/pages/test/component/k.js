@@ -17,8 +17,12 @@ function chooseKType(code,type){
 
 class K extends React.Component {
     componentDidMount() {
-        const data = this.getChooseData();
-        const _this = this;
+        // const data = this.getChooseData();
+        const _this = this
+        // if(draw.第一次加载数据){
+        //     console.log(123);
+        //     window.location.reload();
+        // }
         setTimeout(() => {
             const h = document.body.offsetHeight - document.getElementById('trade-op').offsetHeight - 80 - 10
             draw.画布id = "k";
@@ -31,22 +35,31 @@ class K extends React.Component {
             draw.init();
             draw.loading();
             draw.eve();
-            if(data.length === 0){
-                chooseKType(sessionStorage.getItem(config.TRADE_CODE), "分时");
-            }else{
-                _this.draw(data);
-            }
+            chooseKType(sessionStorage.getItem(config.TRADE_CODE), "分时");
+            // if(data.length === 0){
+            //     chooseKType(sessionStorage.getItem(config.TRADE_CODE), "分时");
+            // }else{
+            //     _this.draw(data);
+            // }
         })
     }
     componentWillReceiveProps(nextProps){
         const {draw_data} = nextProps;
         const old_draw_data = this.props.draw_data;
         // const neq = draw_data.toString() != old_draw_data.toString();
+        // console.log('old_draw_data',old_draw_data);
+        // console.log('draw_data',draw_data);
         if(draw_data.length != 0){
             this.draw(draw_data);
         }
     }
-
+    componentWillUnmount(){
+        const {init} = this.props;
+        window.k_type_choose = '分时';
+        draw.loading();
+        draw.reload();
+        init();
+    }
     draw(data) {
         const {type_choose} = this.props;
         const len = data.length;
@@ -93,6 +106,7 @@ class K extends React.Component {
     chooseType = type => () => {
         const {...rest} = this.props;
         if (rest.type_choose != type) {
+            draw.reload();
             draw.loading();
             window.k_type_choose = type;
             rest.assignTypeChoose(type);
@@ -117,9 +131,9 @@ class K extends React.Component {
                     ))}
                 </Flex>
                 {/*<nav styleName="k-nav">*/}
-                    {/*{type_list.map((item,index) => (*/}
-                        {/*<div style={type_choose === item ? {borderBottom:'1px solid #fff'} : {}} styleName={"k-nav-item"} key={'k_nav_'+index} onClick={this.chooseType(item).bind(this)}>{item}</div>*/}
-                    {/*))}*/}
+                {/*{type_list.map((item,index) => (*/}
+                {/*<div style={type_choose === item ? {borderBottom:'1px solid #fff'} : {}} styleName={"k-nav-item"} key={'k_nav_'+index} onClick={this.chooseType(item).bind(this)}>{item}</div>*/}
+                {/*))}*/}
                 {/*</nav>*/}
                 <canvas id="k" style={{zoom: 0.5, backgroundColor: "#20212b"}}></canvas>
             </div>
@@ -140,6 +154,11 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
+    init: () => {
+        dispatch({
+            type: 'test/init',
+        })
+    },
     assignData: (data) => {
         dispatch({
             type: 'test/assignData',

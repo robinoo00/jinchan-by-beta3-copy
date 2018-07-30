@@ -19,7 +19,7 @@ class Personal extends React.Component{
         return(
             <div>
                 <Header
-                    title={data.持卡人}
+                    title={data.姓名}
                     leftText={'客服'}
                     leftCallBack={() => {router.push({pathname:'/help'})}}
                     rightText={'退出'}

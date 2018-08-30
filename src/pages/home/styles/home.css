@@ -113,12 +113,15 @@
     content:'\e608';
 }
 .list-item:nth-of-type(2):before{
-    content:'\e61f';
+    content:'\e608';
 }
 .list-item:nth-of-type(3):before{
-    content:'\e611';
+    content:'\e61f';
 }
 .list-item:nth-of-type(4):before{
+    content:'\e611';
+}
+.list-item:nth-of-type(5):before{
     content:'\e64f';
 }
 

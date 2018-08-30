@@ -43,6 +43,7 @@ class Price extends React.Component{
 
     componentWillUnmount() {
         clearInterval(id);
+        Toast.hide();
     }
     assignData(resource){
         const code =sessionStorage.getItem(config.TRADE_CODE);

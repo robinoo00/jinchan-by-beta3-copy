@@ -11,12 +11,12 @@ const Example = ({elink,action}) => {
             <div styleName="mod-menu">
                 <Link to={'/fund'}>
                     <i styleName="iconfont" data-icon="detail" style={{backgroundColor:'#5C8FE8'}}></i>
-                    资金明细
+                    出入金查询
                     <i styleName="mod-arrow-r"></i>
                 </Link>
                 <a href="javascript:;" onClick={elink('/capital',action)}>
                     <i styleName="iconfont" data-icon="capital" style={{backgroundColor:'#bd2fe8'}}></i>
-                    风险查询
+                    资金查询
                     <i styleName="mod-arrow-r"></i>
                 </a>
             </div>

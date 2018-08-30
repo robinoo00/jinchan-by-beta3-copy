@@ -28,11 +28,11 @@ class FundList extends React.Component {
                 {rest.list.map((item, index) => (
                     <Item
                         key={"fund_list_" + index}
-                        extra={<div><p style={{fontSize: '.16rem',color:item.金额 > 0 ? '#E34C4D' : '#01B28E'}}>{item.金额}</p><p>账号:{item.账号}</p></div>}
-                    ><p style={{fontSize: '.16rem', color: '#999'}}>{item.出入金方向}</p>
-                        <Brief style={{fontSize: '.12rem'}}>{item.出入金日期.slice(0,10)}</Brief></Item>
+                        extra={<div><p style={{fontSize: '.16rem',color:item.金额 > 0 ? '#E34C4D' : '#01B28E'}}>{item.金额}</p><p style={{color: '#fff'}}>账号:{item.账号}</p></div>}
+                    ><p style={{fontSize: '.16rem', color: '#fff'}}>{item.出入金方向}</p>
+                        <Brief style={{fontSize: '.12rem', color: '#fff'}}>{item.出入金日期.slice(0,10)}</Brief></Item>
                 ))}
-                <NoMore nomore={rest.nomore}/>
+                {/*<NoMore nomore={rest.nomore}/>*/}
             </div>
         )
     }

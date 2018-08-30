@@ -60,7 +60,11 @@ export default {
                     item['value'] = info[item.key];
                 }
                 if(item.key === '风险率'){
-                    item.value = info['劣后'] / info['优先'] * 100 + '%';
+                    if(info['劣后'] === 0 || info['优先'] === 0){
+                        item.value = 0
+                    }else{
+                        item.value = info['劣后'] / info['优先'] * 100 + '%';
+                    }
                 }
             }
             return {

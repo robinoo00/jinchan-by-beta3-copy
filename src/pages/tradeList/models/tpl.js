@@ -16,6 +16,10 @@ export default {
         history_list: [],
         earn: 0,
         clear_time: '',
+        ping_modal:{
+            visible:false,
+            data:null
+        },
         history_date: ''//历史事件选择
     },
     subscriptions: {
@@ -31,7 +35,7 @@ export default {
     },
 
     effects: {
-        * order({direction, offset, code, num}, {call, select}) {
+        * order({direction, offset, code, num}, {call, put}) {
             const post_data = {
                 instrument: code,
                 direction: direction,
@@ -39,22 +43,21 @@ export default {
                 offset: offset
             }
             const {data} = yield call(TradeServices.order, post_data);
+            yield put({
+                type:'hidePingModal'
+            })
             if(data){
                 if (data.信息 === 'api error') {
-                    // alert('非交易时间不可交易',
-                    //     <div>非交易时间不可交易<br/><br/>【沪金的买入时间】<br/>09:00 - 10:15<br/>10:30 - 11:30<br/>13:30 - 14:55<br/>21:00 - 02:25<br/>（周末节假日休市）</div>,
-                    //     [
-                    //         {
-                    //             text:'确定',onPress:() => {}
-                    //         }
-                    //     ])
-                    Toast.info('交易失败');
+                    Toast.info('交易失败',1);
                 } else {
-                    Toast.info(data.信息)
+                    Toast.info(data.信息,1)
                 }
             }
         },
-        * ping({direction, code, num}, {put, call}) {
+        * ping({num}, {select,put, call}) {
+            const item = yield select(state => state.tradeList.ping_modal.data)
+            const direction = item[3]
+            const code = item[2]
             const {data} = yield call(TradeServices.getOffect, {pz: code, fx: direction});
             const offset = data.昨仓 ? 1 : 3;
             yield put({
@@ -138,6 +141,24 @@ export default {
     },
 
     reducers: {
+        showPingModal(state,{data}){
+            return {
+                ...state,
+                ping_modal:{
+                    visible:true,
+                    data:data
+                }
+            }
+        },
+        hidePingModal(state){
+            return {
+                ...state,
+                ping_modal:{
+                    ...state.ping_modal,
+                    visible:false
+                }
+            }
+        },
         assignDealList(state, {data}) {
             return {
                 ...state,

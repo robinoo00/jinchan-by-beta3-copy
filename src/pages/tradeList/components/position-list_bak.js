@@ -4,7 +4,6 @@ import {connect} from 'dva'
 import React from 'react'
 import Button from '../../../components/button/button'
 import {Modal, Toast, Flex} from 'antd-mobile'
-import AlertItem from './ping-check-alert'
 
 const alert = Modal.alert;
 let id = 0;
@@ -21,15 +20,8 @@ class Example extends React.Component {
 
     render() {
         const {list, ping, earn, pingAll} = this.props;
-        const {...rest} = this.props;
         return (
             <div>
-                {rest.item ? <AlertItem
-                    item={rest.item}
-                    hide={rest.hidePingModal}
-                    submit={rest.pingSubmit}
-                    visible={rest.visible}
-                /> : null}
                 {list.map((item, index) => (
                     <div key={"position_item_" + index} styleName="trade-wrap">
                         <ul styleName="row-1">
@@ -54,7 +46,7 @@ class Example extends React.Component {
                                     {/*<p>止损点&nbsp;&nbsp;272.4</p>*/}
                                 </li>
                                 <li styleName="fr" style={{paddingTop: '.15rem'}}>
-                                    <div styleName="state-blue" onClick={ping(item)}>平仓</div>
+                                    <div styleName="state-blue" onClick={ping(item['3'], item['2'], item['4'])}>平仓</div>
                                 </li>
                             </ul>
                         </div>
@@ -68,6 +60,37 @@ class Example extends React.Component {
                     </div>
                 </div>
             </div>
+        )
+    }
+}
+
+let sell_item_index = 1;
+
+class SellItem extends React.Component {
+    state = {
+        index: 1
+    }
+    choose = index => () => {
+        sell_item_index = index;
+        this.setState({
+            index: index
+        })
+    }
+
+    render() {
+        const index = this.state.index;
+        return (
+            <Flex className={styles.sell_wrap}>
+                <Flex.Item>
+                    <div onClick={this.choose(1)} className={index === 1 ? styles.sell_item_choose : styles.sell_item}>
+                        即时平仓
+                    </div>
+                </Flex.Item>
+                {/*<div onClick={this.choose(2)} className={index === 2 ? styles.sell_item_choose : styles.sell_item}>*/}
+                {/*<p>即时卖出</p>*/}
+                {/*<p>马上<span style={{color: '#01B28E'}}>看跌</span></p>*/}
+                {/*</div>*/}
+            </Flex>
         )
     }
 }
@@ -132,9 +155,7 @@ class SellAll extends React.Component {
 
 const mapStateToProps = state => ({
     list: state.tradeList.position_list,
-    earn: state.tradeList.earn,
-    item: state.tradeList.ping_modal.data,
-    visible: state.tradeList.ping_modal.visible
+    earn: state.tradeList.earn
 })
 
 const mapDispatchToProps = (dispatch, props) => ({
@@ -172,22 +193,32 @@ const mapDispatchToProps = (dispatch, props) => ({
             Toast.info('还未持仓')
         }
     },
-    ping: (item) => () => {
-        dispatch({
-            type: 'tradeList/showPingModal',
-            data:item
-        })
-    },
-    hidePingModal: () => {
-        dispatch({
-            type:'tradeList/hidePingModal'
-        })
-    },
-    pingSubmit:(num) => {
-        dispatch({
-            type:'tradeList/ping',
-            num:num
-        })
+    ping: (direction, code, num) => () => {
+        alert('', <SellItem/>, [
+            {
+                text: '取消', onPress: () => {
+                }
+            },
+            {
+                text: '确定', onPress: () => {
+                    dispatch({
+                        type: 'tradeList/ping',
+                        direction: direction,
+                        code: code,
+                        num: num
+                    })
+                    if (sell_item_index === 2) {
+                        dispatch({
+                            type: 'tradeList/order',
+                            direction: 0,
+                            code: code,
+                            num: 1,
+                            offset: 0
+                        })
+                    }
+                }
+            }
+        ])
     },
     getPositionList: () => {
         dispatch({

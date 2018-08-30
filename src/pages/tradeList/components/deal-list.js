@@ -16,7 +16,7 @@ const Example = ({list,reBuildDate}) => {
                         extra={
                             <div>
                                 <p style={item['3'] === 0 ? {color:'#E34C4D'} : {color:"#01B28E"}}>{item['3'] === 0 ? "买入" : "卖出"}{item['6']}手</p>
-                                <Brief>￥{item['5']}</Brief>
+                                <Brief>{item['5']}</Brief>
                             </div>}
                     >
                         <p style={{fontSize:'.17rem'}}>{item['2']} <span style={{fontSize:'.14rem'}}>（{item['4'] === 0 ? "开仓" : "平仓"}）</span></p>

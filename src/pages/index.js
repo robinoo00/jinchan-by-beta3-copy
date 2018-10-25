@@ -8,7 +8,8 @@ import config from '../utils/config'
 function IndexPage() {
     return (
         <div>
-            {localStorage.getItem(config.KEY) ? <Home/> : <Login/>}
+            <Home/>
+            {/*{localStorage.getItem(config.KEY) ? <Home/> : <Login/>}*/}
         </div>
     );
 }

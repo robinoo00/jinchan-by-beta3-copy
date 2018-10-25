@@ -7,6 +7,7 @@ import Nav from './nav'
 import List from './list'
 import router from 'umi/router'
 import Position from './position-list'
+import config from "../../../utils/config";
 
 const Home = () => (
     <div>
@@ -21,11 +22,12 @@ const Home = () => (
         <Banner/>
         <Nav/>
         <List/>
-        <Position/>
+        {localStorage.getItem(config.KEY) ? <Position/> : null}
     </div>
 )
 
 const mapStateToProps = state => ({
+
 })
 
 const mapDispatchToProps = (dispatch,props) => ({

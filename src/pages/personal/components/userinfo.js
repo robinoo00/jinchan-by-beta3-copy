@@ -20,7 +20,8 @@ const UserInfo = ({...rest}) => {
             <ul styleName="pay-wrap">
                 <li onClick={() => {
                     if(rest.action){
-                        router.push({pathname:'/payType'})
+                        // router.push({pathname:'/payType'})
+                        Toast.info('暂停充值')
                     }else{
                         Toast.info('当前接口关闭')
                     }

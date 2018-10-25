@@ -80,6 +80,10 @@ a, html {
     color: #fff !important;
 }
 
+.am-list-header{
+    background-color: #20212b !important;
+    color: #fff !important;
+}
 .am-accordion .am-accordion-item .am-accordion-header {
     background-color: #262834 !important;
     color: #fff !important;

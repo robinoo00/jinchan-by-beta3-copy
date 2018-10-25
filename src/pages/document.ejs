@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
     <!--<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no,user-scalable=no">-->
-    <title>金蟾操盘</title>
+    <title></title>
     <link rel="stylesheet" href="./kitchen-sink.css">
 </head>
 <body>
@@ -21,6 +21,7 @@
 <script src="./hammer-min.js"></script>
 <script src="./polyfill.min.js"></script>
 <script>
+    document.title='\u200E';
     var k_type_choose = "";
     var work = $.connection.myHub;
     $.connection.hub.url = 'http://47.100.123.216:1218/lcc';

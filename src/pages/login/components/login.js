@@ -12,28 +12,28 @@ import qrcode from '../images/qrcode.png'
 const Login = ({...rest}) => (
     <div styleName="mod-login">
         <Header
-            back={false}
             bgColor={'#20212b'}
+            url={'/home'}
         />
         <div styleName="logo">
             <div styleName="logo-img"></div>
         </div>
         <div styleName="forms">
-            <Picker
-                cols={1}
-                data={rest.pickerData}
-                {...rest.form.getFieldProps('sev',{
-                    initialValue:[rest.choose.value]
-                })}>
-                <Flex  styleName="mod-form">
-                    <Flex.Item styleName="label-wrap">
-                        <label>类型</label>
-                    </Flex.Item>
-                    <Flex.Item>
-                        <input type="text" styleName="inp" value={rest.choose.label} readOnly/>
-                    </Flex.Item>
-                </Flex>
-            </Picker>
+            {/*<Picker*/}
+                {/*cols={1}*/}
+                {/*data={rest.pickerData}*/}
+                {/*{...rest.form.getFieldProps('sev',{*/}
+                    {/*initialValue:[rest.choose.value]*/}
+                {/*})}>*/}
+                {/*<Flex  styleName="mod-form">*/}
+                    {/*<Flex.Item styleName="label-wrap">*/}
+                        {/*<label>类型</label>*/}
+                    {/*</Flex.Item>*/}
+                    {/*<Flex.Item>*/}
+                        {/*<input type="text" styleName="inp" value={rest.choose.label} readOnly/>*/}
+                    {/*</Flex.Item>*/}
+                {/*</Flex>*/}
+            {/*</Picker>*/}
             <Flex  styleName="mod-form">
                 <Flex.Item styleName="label-wrap">
                     <label>账号</label>
@@ -72,13 +72,13 @@ const Login = ({...rest}) => (
                     callBack={rest.submit(rest.sev)}
                 />
             </div>
-            <div style={{marginTop: '.15rem'}}>
-                <Button
-                    title={'免费注册'}
-                    bgColor={'#E34C4D'}
-                    callBack={() => {router.push('/register')}}
-                />
-            </div>
+            {/*<div style={{marginTop: '.15rem'}}>*/}
+                {/*<Button*/}
+                    {/*title={'免费注册'}*/}
+                    {/*bgColor={'#E34C4D'}*/}
+                    {/*callBack={() => {router.push('/register')}}*/}
+                {/*/>*/}
+            {/*</div>*/}
             <Flex>
                 <Flex.Item styleName="links">
                     <a href={"tel:"+config.SERVICE_TEL}>联系客服</a>
@@ -117,7 +117,8 @@ const mapDispatchToProps = (dispatch, props) => ({
                 let value = props.form.getFieldsValue();
                 dispatch({
                     type: 'login/LoginIn',
-                    values: {account: value.account, password: value.password, sev: value.sev[0]},
+                    // values: {account: value.account, password: value.password, sev: value.sev[0]},
+                    values: {account: value.account, password: value.password, sev: 0},
                 });
             } else {
                 const errors = Object.values(error);

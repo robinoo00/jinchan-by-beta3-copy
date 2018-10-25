@@ -50,7 +50,7 @@ class Position extends React.Component {
                         <div>当前持仓</div>
                         <div styleName="ping" onClick={() => {
                             router.push({pathname: '/tradeList'})
-                        }}>去平仓
+                        }}>交易明细
                         </div>
                     </div>
                     <table styleName="table">

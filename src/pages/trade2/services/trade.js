@@ -14,7 +14,6 @@ import config from '../../../utils/config'
 * volume 数量
 * */
 export function order(values){
-    console.log(values);
     return request(config.server + 'appapi/order',{
         method:'POST',
         headers: {

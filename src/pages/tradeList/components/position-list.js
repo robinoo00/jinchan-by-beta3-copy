@@ -5,6 +5,7 @@ import React from 'react'
 import Button from '../../../components/button/button'
 import {Modal, Toast, Flex} from 'antd-mobile'
 import AlertItem from './ping-check-alert'
+import router from 'umi/router'
 
 const alert = Modal.alert;
 let id = 0;
@@ -20,7 +21,7 @@ class Example extends React.Component {
     }
 
     render() {
-        const {list, ping, earn, pingAll} = this.props;
+        const {list, ping, earn, pingAll,limitLose} = this.props;
         const {...rest} = this.props;
         return (
             <div>
@@ -55,6 +56,9 @@ class Example extends React.Component {
                                 </li>
                                 <li styleName="fr" style={{paddingTop: '.15rem'}}>
                                     <div styleName="state-blue" onClick={ping(item)}>平仓</div>
+                                </li>
+                                <li styleName="fr" style={{paddingTop: '.15rem', marginRight: '10px'}}>
+                                    <div styleName="state-blue" onClick={limitLose(item)}>损盈</div>
                                 </li>
                             </ul>
                         </div>
@@ -193,7 +197,14 @@ const mapDispatchToProps = (dispatch, props) => ({
         dispatch({
             type: 'tradeList/getPositionList'
         })
-    }
+    },
+    limitLose: item => () => {
+        dispatch({
+            type:'limits/assignTempData',
+            data:item
+        })
+        router.push({pathname:'limits',query:{code:item[2],price:item[5]}})
+    },
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(CSSModules(Example, styles))

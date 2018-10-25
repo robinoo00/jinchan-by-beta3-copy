@@ -16,7 +16,7 @@ class Detail extends React.Component {
         clearInterval(id);
     }
     render(){
-        let {earn} = this.props;
+        let {earn,code} = this.props;
         return(
             <Flex styleName="detail-list">
                 <Flex.Item>
@@ -25,6 +25,11 @@ class Detail extends React.Component {
                 <Flex.Item>
                     <div styleName="trade-details" onClick={() => {router.push({pathname:'/tradeList'})}}>
                         交易明细
+                    </div>
+                </Flex.Item>
+                <Flex.Item>
+                    <div styleName="trade-details" onClick={() => {router.push({pathname:'/limits',query:{type:'all',code:code}})}}>
+                        损盈明细
                     </div>
                 </Flex.Item>
                 {/*<Flex.Item>*/}
@@ -38,7 +43,8 @@ class Detail extends React.Component {
 }
 
 const mapStateToProps = state => ({
-    earn: state.tradeList.earn
+    earn: state.tradeList.earn,
+    code: state.trade2.code,
 })
 
 const mapDispatchToProps = dispatch => ({

@@ -10,7 +10,7 @@ export default {
     setup({ dispatch, history }) {
         return history.listen(({pathname,query}) => {
             const key = localStorage.getItem(config.KEY);
-            if(pathname !== '/'&& pathname !== '/register' && pathname !== '/login' && pathname !== '/test'){
+            if(pathname !== '/home' && pathname !== '/'&& pathname !== '/register' && pathname !== '/login' && pathname !== '/test'){
                 if(!key){
                     router.push('/login')
                 }else{

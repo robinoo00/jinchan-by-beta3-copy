@@ -15,7 +15,7 @@ class HomeList extends React.Component {
             <div styleName="mod-index-list">
                 <div styleName="wrap">
                     <div styleName="title">
-                        <span>实盘交易</span>
+                        <span>品种列表</span>
                     </div>
                     {list.length === 0 ? <Loading/> :
                         <div styleName="mod-menu">

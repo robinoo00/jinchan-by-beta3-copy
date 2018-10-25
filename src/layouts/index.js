@@ -22,6 +22,7 @@ class Layout extends React.Component{
         }
         window.work.client.kdata = function (data) {
             const get_data = eval("(" + data + ")");
+            // console.log(get_data)
             const code = sessionStorage.getItem(config.TRADE_CODE);
             if(get_data.length != 0 && get_data[0]['类型'] == window.k_type_choose && get_data[0]['合约'] == code){
                 assignKData(eval("(" + data + ")"));

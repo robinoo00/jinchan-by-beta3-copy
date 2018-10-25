@@ -1,11 +1,12 @@
 import CSSModules from 'react-css-modules'
 import styles from '../styles/personal.css'
 import Link from 'umi/link'
-import {Toast} from 'antd-mobile'
+import {Toast,Modal} from 'antd-mobile'
 import router from 'umi/router'
 import {connect} from 'dva'
+import qrcode from '../../login/images/qrcode.png'
 
-const Example = ({elink,action}) => {
+const Example = ({elink,action,showQrcode}) => {
     return (
         <div>
             <div styleName="mod-menu">
@@ -26,14 +27,14 @@ const Example = ({elink,action}) => {
                     个人信息
                     <i styleName="mod-arrow-r"></i>
                 </a>
-                <a to={'/myPacket'} onClick={() => {Toast.info('未开放');return false;}}>
-                    <i styleName="iconfont" data-icon="money" style={{backgroundColor:'#FF0000'}}></i>
-                    我的红包
-                    <i styleName="mod-arrow-r"></i>
-                </a>
-                <a to={'/union'} onClick={() => {Toast.info('未开放');return false;}}>
+                {/*<a to={'/myPacket'} onClick={() => {Toast.info('未开放');return false;}}>*/}
+                    {/*<i styleName="iconfont" data-icon="money" style={{backgroundColor:'#FF0000'}}></i>*/}
+                    {/*我的红包*/}
+                    {/*<i styleName="mod-arrow-r"></i>*/}
+                {/*</a>*/}
+                <a to={'/union'} onClick={showQrcode}>
                     <i styleName="iconfont" data-icon="invite" style={{backgroundColor:'#F16A33'}}></i>
-                    邀请好友
+                    分享好友
                     <i styleName="mod-arrow-r"></i>
                 </a>
                 <Link to={'/setting'}>
@@ -62,7 +63,13 @@ const mapDispatchToProps = dispatch => ({
         }else{
             Toast.info('当前接口关闭')
         }
-    }
+    },
+    showQrcode:() => {
+        Modal.alert('', <img style={{width:'100%'}} src={qrcode}/>,
+            [
+                { text: '关闭', onPress: () => {} },
+            ])
+    },
 })
 
 
